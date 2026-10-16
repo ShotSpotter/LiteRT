@@ -350,10 +350,6 @@ endif()
 
 # Samsung
 option(LITERT_ENABLE_SAMSUNG "Enable Samsung NPU build" ON)
-if(LITECORE_HEADERS_DIR AND NOT LITERT_ENABLE_SAMSUNG)
-  message(STATUS "Enabling Samsung dispatch: Samsung headers detected at ${LITECORE_HEADERS_DIR}")
-  set(LITERT_ENABLE_SAMSUNG ON CACHE BOOL "" FORCE)
-endif()
 if(LITERT_ENABLE_SAMSUNG)
   # Use modular CMake structure for Samsung
   add_subdirectory(samsung)
