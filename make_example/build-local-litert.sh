@@ -4,16 +4,12 @@
 # LITERT_BUILD must match the Makefile's LITERT_BUILD (default $HOME/LiteRT/cmake_build).
 set -eu
 
-LITERT_URL=https://github.com/ShotSpotter/LiteRT.git
-LITERT_BRANCH=v2.3.1-sst
-LITERT_COMMIT=1881386c68afd3060330c684925345cb079e7c84
-
 LITERT_BUILD="${LITERT_BUILD:-$HOME/LiteRT/cmake_build}"
 case "$LITERT_BUILD" in
     /*) ;;
     *) LITERT_BUILD="$PWD/$LITERT_BUILD" ;;
 esac
-LITERT_SRC="$(dirname "$LITERT_BUILD")"
+LITERT_SRC="$(cd "$(dirname "$0")/.." && pwd)"
 LITERT_LIB="$LITERT_BUILD/tflite_build/libtensorflow-lite.so"
 
 START_TIME="$(date +%s)"
@@ -39,13 +35,6 @@ report() {
     exit "$status"
 }
 trap report EXIT
-
-if [ -d "$LITERT_SRC/.git" ]; then
-    git -C "$LITERT_SRC" fetch origin "$LITERT_BRANCH"
-else
-    git clone --branch "$LITERT_BRANCH" "$LITERT_URL" "$LITERT_SRC"
-fi
-git -C "$LITERT_SRC" checkout "$LITERT_COMMIT"
 
 mkdir -p "$LITERT_BUILD"
 cd "$LITERT_BUILD"
